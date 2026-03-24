@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridge Of Fire - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #0d1117; 
+            color: #c9d1d9;
+            scroll-behavior: smooth;
+            word-break: keep-all;
+        }
+
+        .glass-card {
+            background: rgba(22, 27, 34, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(240, 246, 252, 0.1);
+            border-radius: 1.25rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tech-badge {
+            background: rgba(249, 115, 22, 0.15);
+            color: #fb923c;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(249, 115, 22, 0.3);
+        }
+
+        .tool-badge {
+            background: rgba(110, 84, 148, 0.15);
+            color: #a371f7;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(110, 84, 148, 0.3);
+        }
+
+        .hover-scale {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .hover-scale:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(13, 17, 23, 0.6), #0d1117);
+        }
+
+        .code-snippet {
+            background: #010409;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #79c0ff;
+            border: 1px solid #30363d;
+            white-space: pre;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+        .code-keyword { color: #ff7b72; }
+        .code-method { color: #d2a8ff; }
+        .code-comment { color: #8b949e; }
+
+        .gallery-img-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        .gallery-img-container img {
+            transition: transform 0.5s ease;
+        }
+        .gallery-img-container:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 내비게이션 스타일 */
+        nav {
+            backdrop-filter: blur(10px);
+            background: rgba(13, 17, 23, 0.8);
+        }
+        
+        .nav-link {
+            transition: color 0.3s;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .nav-link:hover {
+            color: #f97316;
+        }
+    </style>
+</head>
+<body class="antialiased leading-relaxed">
+
+    <!-- 고정 네비게이션 -->
+    <nav class="fixed top-0 w-full z-50 border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="font-bold text-xl gradient-text tracking-tighter">Bridge Of Fire</a>
+            <div class="hidden md:flex gap-8">
+                <a href="#intro" class="nav-link">소개</a>
+                <a href="#logic" class="nav-link">개발 로직</a>
+                <a href="#feedback" class="nav-link">피드백</a>
+                <a href="#data" class="nav-link">자료실</a>
+                <a href="#gallery" class="nav-link">갤러리</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header / Hero Section -->
+    <header class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4 text-center">
+        <div class="absolute inset-0 z-0 opacity-20 bg-cover bg-center" style="background-image: url('./image/play.png');">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+
+        <div class="z-10 mt-[-5vh]">
+            <span class="inline-block px-4 py-1 mb-6 text-sm font-semibold tracking-widest text-orange-400 uppercase bg-orange-950/30 border border-orange-900 rounded-full">
+                HCI 사이언스 VR/AR 전공 프로젝트
+            </span>
+            <h1 class="text-6xl md:text-8xl font-extrabold mb-6 tracking-tighter gradient-text">Bridge Of Fire</h1>
+            <p class="text-2xl md:text-3xl text-slate-400 font-light mb-12 max-w-3xl mx-auto leading-normal">
+                설계부터 구현까지, 탄탄한 프로세스로 완성한<br>2D 액션 플랫폼 게임
+            </p>
+            <div class="flex gap-4 justify-center">
+                <a href="https://github.com/Jang-Goeun/BridgeOfFire" target="_blank" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 rounded-xl flex items-center gap-3 transition-all border border-slate-700 text-lg font-semibold">
+                    <i class="fab fa-github text-2xl"></i> GitHub Repository
+                </a>
+            </div>
+        </div>
+        <a href="#intro" class="absolute bottom-10 animate-bounce text-slate-500 z-10 hover:text-orange-400 transition-colors">
+            <i class="fas fa-chevron-down text-3xl"></i>
+        </a>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-24 space-y-48">
+
+        <!-- Introduction Section -->
+        <section id="intro" class="grid md:grid-cols-5 gap-16 items-center scroll-mt-24">
+            <div class="md:col-span-3">
+                <h2 class="text-4xl font-bold mb-8 flex items-center gap-4 tracking-tight text-white">
+                    <span class="w-10 h-1 bg-orange-500 rounded-full"></span>
+                    프로젝트 소개
+                </h2>
+                <div class="prose prose-lg prose-invert text-slate-300 leading-relaxed mb-10 space-y-4 text-lg">
+                    <p>본 프로젝트는 HCI사이언스 복수전공 과목인 <strong>VR/AR1</strong>의 개인 과제로 제작된 미니 게임입니다.</p>
+                    <p>한 학기 동안 학습한 게임 설계 프로세스를 실제 개발 현장에 적용해 보는 것을 핵심 목표로 삼았으며, 초기 기획 단계부터 교수님의 피드백을 수렴하여 기능적·공간적 완성도를 높이는 데 집중했습니다.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 text-lg">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-orange-400"><i class="far fa-calendar-alt"></i></div>
+                        <div>
+                            <span class="text-slate-500 text-sm block">개발 기간</span>
+                            <span class="font-medium text-slate-200">2025.06.20 ~ 06.22</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-emerald-900/30 flex items-center justify-center text-emerald-400"><i class="fas fa-award"></i></div>
+                        <div>
+                            <span class="text-slate-500 text-sm block">핵심 성과</span>
+                            <span class="text-emerald-400 font-bold whitespace-nowrap">전공 과제 만점 (A+)</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 col-span-1 sm:col-span-2">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-purple-400 mt-1"><i class="fas fa-code"></i></div>
+                        <div>
+                            <span class="text-slate-500 text-sm block mb-1">기술 스택</span>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="tech-badge">C#</span>
+                                <span class="tool-badge">Unity 2D</span>
+                                <span class="tool-badge">Visual Studio 2022</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="md:col-span-2 glass-card p-3 shadow-2xl hover-scale">
+                <img src="./image/start.png" alt="Bridge Of Fire 인게임 화면" class="w-full h-auto rounded-xl">
+            </div>
+        </section>
+
+        <!-- 주요 개발 로직 & Evolution -->
+        <section id="logic" class="space-y-12 scroll-mt-24">
+            <h2 class="text-3xl font-bold flex items-center gap-4 tracking-tight text-white">
+                <span class="w-10 h-1 bg-blue-500 rounded-full"></span>
+                주요 개발 로직 & Evolution
+            </h2>
+            
+            <div class="space-y-10">
+                <!-- 1. 가변 난이도 시스템 -->
+                <div class="glass-card p-8 hover-scale border-l-4 border-l-blue-500 bg-blue-900/5">
+                    <div class="flex flex-col lg:flex-row gap-10">
+                        <div class="lg:w-1/3">
+                            <h3 class="text-2xl font-bold mb-4 text-blue-400">#1. 가변 난이도 시스템</h3>
+                            <p class="text-slate-300 leading-relaxed text-lg mb-6">
+                                초기 기획의 '속도 증가'를 넘어, 남은 시간에 따라 불덩이 생성 주기(Span)를 유동적으로 조절하여 게임 후반부의 긴장감을 극대화했습니다.
+                            </p>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-2 text-blue-400 text-sm md:text-base">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Time.deltaTime 기반 정밀 델타 체크</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-blue-400 text-sm md:text-base">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>외부 파라미터 주입형 구조(Dependency)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:w-2/3">
+                            <div class="code-snippet">
+<span class="code-keyword">public void</span> <span class="code-method">SetParameter</span>(<span class="code-keyword">float</span> span) {
+    <span class="code-keyword">this</span>.span = span;
+}
+
+<span class="code-keyword">void</span> <span class="code-method">Update</span>() {
+    <span class="code-keyword">this</span>.delta += Time.deltaTime;
+    <span class="code-keyword">if</span>(<span class="code-keyword">this</span>.delta > <span class="code-keyword">this</span>.span) {
+        <span class="code-keyword">this</span>.delta = 0;
+        GameObject fireBall = Instantiate(FireBallPrefab);
+        <span class="code-keyword">float</span> y = Random.Range(-4, 4);
+        fireBall.transform.position = <span class="code-keyword">new</span> Vector3(64, y, 0);
+    }
+}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 지연 낙하 브릿지 -->
+                <div class="glass-card p-8 hover-scale border-l-4 border-l-emerald-500 bg-emerald-900/5">
+                    <div class="flex flex-col lg:flex-row gap-10">
+                        <div class="lg:w-1/3">
+                            <h3 class="text-2xl font-bold mb-4 text-emerald-400">#2. 지연 낙하 브릿지</h3>
+                            <p class="text-slate-300 leading-relaxed text-lg mb-6">
+                                코루틴을 활용해 3초의 유예 시간을 부여함으로써, 플레이어가 무작정 달리는 것이 아닌 전략적인 이동 타이밍을 고민하도록 설계했습니다.
+                            </p>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-2 text-emerald-400 text-sm md:text-base">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>IEnumerator 기반 비동기 대기 로직</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-emerald-400 text-sm md:text-base">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Rigidbody2D Dynamic 타입 동적 전환</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:w-2/3">
+                            <div class="code-snippet">
+<span class="code-keyword">private void</span> <span class="code-method">OnCollisionEnter2D</span>(Collision2D collision) {
+    <span class="code-keyword">if</span> (collision.gameObject.CompareTag(<span class="code-keyword">"Player"</span>)) {
+        StartCoroutine(EnableGravityAfterDelay(3f));
+    }
+}
+
+<span class="code-keyword">IEnumerator</span> <span class="code-method">EnableGravityAfterDelay</span>(<span class="code-keyword">float</span> delay) {
+    <span class="code-keyword">yield return new</span> WaitForSeconds(delay);
+    rigid2D.bodyType = RigidbodyType2D.Dynamic;
+}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. BGM 싱글톤 패턴 -->
+                <div class="glass-card p-8 hover-scale border-l-4 border-l-purple-500 bg-purple-900/5">
+                    <div class="flex flex-col lg:flex-row gap-10">
+                        <div class="lg:w-1/3">
+                            <h3 class="text-2xl font-bold mb-4 text-purple-400">#3. BGM 싱글톤 패턴</h3>
+                            <p class="text-slate-300 leading-relaxed text-lg mb-6">
+                                씬 전환 시에도 배경음이 끊기지 않도록 싱글톤 패턴과 DontDestroyOnLoad를 결합하여 사용자 경험의 연속성을 확보했습니다.
+                            </p>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-2 text-purple-400 text-sm md:text-base">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span> DontDestroyOnLoad 기반 객체 영속화</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-purple-400 text-sm md:text-base">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>중복 생성 방지 예외 처리 로직</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:w-2/3">
+                            <div class="code-snippet">
+<span class="code-keyword">void</span> <span class="code-method">Awake</span>() {
+    <span class="code-keyword">if</span> (instance == <span class="code-keyword">null</span>) {
+        instance = <span class="code-keyword">this</span>;
+        DontDestroyOnLoad(gameObject);
+    } <span class="code-keyword">else</span> {
+        Destroy(gameObject); <span class="code-comment">// 중복 방지</span>
+    }
+}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 피드백 & 문제 해결 -->
+        <section id="feedback" class="grid md:grid-cols-2 gap-12 scroll-mt-24">
+            <div class="glass-card p-10 border-t-4 border-t-emerald-500 shadow-xl">
+                <div class="flex items-center gap-5 mb-8">
+                    <div class="w-16 h-16 bg-emerald-950 rounded-2xl flex items-center justify-center text-emerald-400 border border-emerald-900">
+                        <i class="fas fa-comments-dollar text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold tracking-tight text-white">교수님 피드백 반영</h3>
+                </div>
+                <ul class="text-slate-300 space-y-6">
+                    <li class="flex items-start gap-4">
+                        <i class="fas fa-check-circle text-emerald-400 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-slate-100">씬 전환 시스템 구축</p>
+                            <span class="text-slate-500 text-sm">SceneManager를 활용한 메인/오버/클리어 전환</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <i class="fas fa-check-circle text-emerald-400 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-slate-100">공간적 몰입감 강화</p>
+                            <span class="text-slate-500 text-sm">징검다리 높낮이 조절 및 프리팹을 이용한 배치</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <i class="fas fa-check-circle text-emerald-400 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-slate-100">상황별 사운드 연출</p>
+                            <span class="text-slate-500 text-sm">AudioSource 컴포넌트를 이용한 효과음 추가</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="glass-card p-10 border-t-4 border-t-red-500 shadow-xl">
+                <div class="flex items-center gap-5 mb-8">
+                    <div class="w-16 h-16 bg-red-950 rounded-2xl flex items-center justify-center text-red-400 border border-red-900">
+                        <i class="fas fa-tools text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold tracking-tight text-white">어려움 및 문제 해결</h3>
+                </div>
+                <div class="space-y-8">
+                    <div class="space-y-3">
+                        <h4 class="font-semibold text-red-300 flex items-center gap-2"># 불덩이 파티클 방향 오류</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed">날아오는 불덩이 파티클 방향이 의도와 정반대로 설정된 현상</p>
+                        <p class="text-slate-200 bg-red-900/20 p-3 rounded-lg border border-red-900/30 text-sm">
+                            <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                            파티클 옵션 수치 조정 및 실시간 플레이 테스트 반복으로 최적의 각도 도출
+                        </p>
+                    </div>
+                    <div class="space-y-3">
+                        <h4 class="font-semibold text-red-300 flex items-center gap-2"># 카메라 트래킹 예외 처리</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed">플레이어가 시작 직후 반대 방향으로 추락 시 카메라 제어 이탈</p>
+                        <p class="text-slate-200 bg-red-900/20 p-3 rounded-lg border border-red-900/30 text-sm">
+                            <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                            돌다리 벽(Collider)을 물리적으로 배치하여 이동 반경을 시스템적으로 제약
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 주요 프로젝트 자료 & Documentation -->
+        <section id="data" class="space-y-12 scroll-mt-24">
+            <h2 class="text-3xl font-bold flex items-center gap-4 tracking-tight text-white">
+                <span class="w-10 h-1 bg-emerald-500 rounded-full"></span>
+                주요 프로젝트 자료 & Documentation
+            </h2>
+            <div class="space-y-10">
+                <!-- 시연 영상 -->
+                <div class="glass-card p-10">
+                    <h3 class="text-2xl font-bold mb-8 flex items-center gap-3 text-orange-400">
+                        <i class="fas fa-play-circle"></i> 게임 플레이 시연 영상
+                    </h3>
+                    <div class="aspect-video w-full max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.6)] bg-black border border-slate-800">
+                        <video class="w-full h-full object-cover" controls>
+                            <source src="./video/demo_video.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+                <!-- PDF 자료 -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="glass-card p-8 hover-scale text-center border border-slate-800">
+                        <h3 class="text-xl font-bold mb-6 text-white italic tracking-tight">초기 프로젝트 기획안</h3>
+                        <a href="./file/plan.pdf" target="_blank" class="block group">
+                            <div class="w-full bg-slate-800/40 rounded-xl flex flex-col items-center justify-center p-10 border-2 border-dashed border-slate-700 group-hover:border-red-500 transition-all">
+                                <i class="fas fa-file-pdf text-6xl text-red-500/40 group-hover:text-red-500 mb-4"></i>
+                                <p class="text-slate-300 font-bold mb-1">Plan View</p>
+                                <p class="text-slate-500 text-xs italic underline underline-offset-4">상세보기를 위해 클릭해주세요</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="glass-card p-8 hover-scale text-center border border-emerald-900/30">
+                        <h3 class="text-xl font-bold mb-6 text-white italic tracking-tight">최종 결과 보고서</h3>
+                        <a href="./file/report.pdf" target="_blank" class="block group">
+                            <div class="w-full bg-emerald-950/10 rounded-xl flex flex-col items-center justify-center p-10 border-2 border-dashed border-emerald-900/50 group-hover:border-emerald-500 transition-all">
+                                <i class="fas fa-file-medical text-6xl text-emerald-500/40 group-hover:text-emerald-500 mb-4"></i>
+                                <p class="text-slate-300 font-bold mb-1">Final Report</p>
+                                <p class="text-slate-500 text-xs italic underline underline-offset-4">상세보기를 위해 클릭해주세요</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- In-game Gallery -->
+        <section id="gallery" class="space-y-12 scroll-mt-24">
+            <h2 class="text-3xl font-bold flex items-center gap-4 tracking-tight text-white">
+                <span class="w-10 h-1 bg-orange-500 rounded-full"></span>
+                In-game Gallery
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="glass-card p-5 hover-scale shadow-2xl">
+                    <div class="gallery-img-container shadow-lg aspect-video">
+                        <img src="./image/start.png" alt="게임 시작" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="text-xl font-bold text-orange-400 mb-2">01. 메인 타이틀</h4>
+                        <p class="text-slate-400 text-sm">사용자 경험(UX)을 고려해 직관적으로 설계한 메인 시작 스크린</p>
+                    </div>
+                </div>
+                <div class="glass-card p-5 hover-scale shadow-2xl">
+                    <div class="gallery-img-container shadow-lg aspect-video">
+                        <img src="./image/play.png" alt="게임 플레이" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="text-xl font-bold text-orange-400 mb-2">02. 실시간 플레이</h4>
+                        <p class="text-slate-400 text-sm">유기적인 물리 엔진과 장애물 생성이 조화된 핵심 게임 스테이지</p>
+                    </div>
+                </div>
+                <div class="glass-card p-5 hover-scale shadow-2xl">
+                    <div class="gallery-img-container shadow-lg aspect-video">
+                        <img src="./image/finish.png" alt="목적지 도달" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="text-xl font-bold text-orange-400 mb-2">03. 목표 지점 도달</h4>
+                        <p class="text-slate-400 text-sm">트리거를 활용한 승리 조건 판정 및 클리어 시퀀스 연결</p>
+                    </div>
+                </div>
+                <div class="glass-card p-5 hover-scale shadow-2xl">
+                    <div class="gallery-img-container shadow-lg aspect-video">
+                        <img src="./image/clear.png" alt="게임 클리어" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="text-xl font-bold text-orange-400 mb-2">04. 미션 성공</h4>
+                        <p class="text-slate-400 text-sm">플레이 결과에 대한 성취감을 고취하는 결과 UI 연출</p>
+                    </div>
+                </div>
+                <div class="glass-card p-5 hover-scale shadow-2xl">
+                    <div class="gallery-img-container shadow-lg aspect-video">
+                        <img src="./image/over.png" alt="게임 오버" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="text-xl font-bold text-orange-400 mb-2">05. 미션 실패</h4>
+                        <p class="text-slate-400 text-sm">직관적인 피드백을 통해 재도전 욕구를 자극하는 게임 오버 화면</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="glass-card p-16 text-center bg-gradient-to-b from-slate-800/40 to-orange-950/20 border border-slate-800 shadow-2xl">
+            <i class="fas fa-rocket text-6xl text-orange-400 mb-10"></i>
+            <h2 class="text-4xl font-bold mb-10 text-white tracking-tighter">마무리하며</h2>
+            <div class="max-w-4xl mx-auto space-y-10 text-slate-300 text-lg leading-relaxed text-center">
+                <p>
+                    이번 프로젝트는 유니티를 심도 있게 학습하며 개발한 저의 첫 번째 도전이었습니다. 
+                    단순한 기능 구현을 넘어, <strong>체계적인 게임 설계와 스크립트 분리가 실제 개발 효율에 미치는 영향</strong>을 깊이 깨닫는 계기가 되었습니다.
+                </p>
+                <p>
+                    특히 목적에 맞는 철저한 파일 관리 프로세스를 정립한 덕분에 실제 개발 시간을 획기적으로 단축할 수 있었고, 
+                    그렇게 확보한 시간을 버그 수정과 연출 고도화에 투자하여 전공 수업 A+라는 값진 성과를 도출해낼 수 있었습니다.
+                </p>
+                <p class="text-2xl font-bold text-emerald-400 mt-12 leading-snug">
+                    "지속적인 학습을 통해 어떤 환경에서도 목적에 최적화된 기능을 구현해내는 역량 있는 개발자가 되겠습니다."
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-20 border-t border-slate-800 text-center text-slate-500 text-sm bg-[#0d1117]">
+        <div class="max-w-6xl mx-auto px-6">
+            <p class="font-semibold text-slate-400 mb-4">Bridge Of Fire Project</p>
+            <p>Designed & Developed by Jang Goeun</p>
+            <div class="mt-8 flex justify-center gap-10">
+                <a href="https://github.com/Jang-Goeun/BridgeOfFire" class="hover:text-orange-400 transition-colors flex items-center gap-2">
+                    <i class="fab fa-github text-xl"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
