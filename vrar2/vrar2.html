@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Escape Horror - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            scroll-behavior: smooth;
+            word-break: keep-all;
+        }
+
+        .glass-card {
+            background: rgba(22, 27, 34, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(240, 246, 252, 0.1);
+            border-radius: 1.25rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #f87171 0%, #fb923c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tech-badge {
+            background: rgba(248, 113, 113, 0.15);
+            color: #f87171;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(248, 113, 113, 0.3);
+        }
+
+        .tool-badge {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .hover-scale {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .hover-scale:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(13, 17, 23, 0.6), #0d1117);
+        }
+
+        video::-webkit-media-controls-panel {
+            background-color: rgba(22, 27, 34, 0.9);
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::before {
+            content: "";
+            width: 8px;
+            height: 32px;
+            background: #f87171;
+            border-radius: 4px;
+        }
+
+        nav {
+            backdrop-filter: blur(10px);
+            background: rgba(13, 17, 23, 0.8);
+        }
+
+        .nav-link {
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            color: #f87171;
+        }
+
+        .highlight-box {
+            background: rgba(248, 113, 113, 0.05);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        /* --- CODE STYLING --- */
+        .code-container {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .code-header {
+            background: #161b22;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #30363d;
+        }
+        .code-dots { display: flex; gap: 6px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        .code-filename { color: #8b949e; font-size: 0.75rem; font-family: monospace; }
+        
+        .code-snippet {
+            padding: 1.25rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            white-space: pre;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+        .code-keyword { color: #ff7b72; font-weight: bold; }
+        .code-method { color: #d2a8ff; }
+        .code-comment { color: #8b949e; font-style: italic; }
+
+        /* --- STRATEGY SECTION STYLING --- */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+        }
+        @media (min-width: 768px) {
+            .strategy-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        .strategy-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .strategy-card:hover {
+            border-color: #f87171;
+            background: rgba(248, 113, 113, 0.05);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        .strategy-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(248, 113, 113, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #f87171;
+            margin-bottom: 0.5rem;
+        }
+        .strategy-number {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.03);
+            line-height: 1;
+        }
+        .strategy-badge {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #f87171;
+            margin-bottom: -0.5rem;
+        }
+        .strategy-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .strategy-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .strategy-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #94a3b8;
+        }
+        .strategy-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #f87171;
+            font-weight: bold;
+        }
+        .strategy-list li strong {
+            color: #e2e8f0;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            color: #f87171;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .tr-hover:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+<body class="antialiased leading-relaxed">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 w-full z-50 border-b border-white/5 text-left">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="font-bold text-xl gradient-text tracking-tighter">Maze Escape Horror</a>
+            <div class="hidden md:flex gap-8">
+                <a href="#intro" class="nav-link">개요</a>
+                <a href="#research" class="nav-link">연구 설계</a>
+                <a href="#logic" class="nav-link">개발 로직</a>
+                <a href="#evaluation" class="nav-link">사용성 평가</a>
+                <a href="#strategy" class="nav-link">최종 전략</a>
+                <a href="#challenges" class="nav-link">도전과 극복</a>
+                <a href="#video" class="nav-link">시연</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header / Hero Section -->
+    <header class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4 text-center">
+        <div class="absolute inset-0 z-0">
+            <img src="스크린샷 2025-10-28 183651.jpg" alt="메인 비주얼" class="w-full h-full object-cover opacity-20">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+
+        <div class="z-10 mt-[-5vh]">
+            <span class="inline-block px-4 py-1 mb-6 text-sm font-semibold tracking-widest text-red-400 uppercase bg-red-950/30 border border-red-900 rounded-full shadow-lg">
+                HCI 사이언스전공 VR/AR2 팀 프로젝트
+            </span>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tighter gradient-text">차량 주행 미로 탈출 공포 게임</h1>
+            <p class="text-xl md:text-2xl text-slate-400 font-light mb-12 max-w-3xl mx-auto leading-normal">
+                시점(1PP vs 3PP)에 따른 공포 경험과 과업 수행도 분석 및<br>사용자 중심 UX 개선 연구
+            </p>
+            <div class="flex gap-4 justify-center">
+                <a href="https://github.com/VR-AR2-TEAM-PROJECT/project" target="_blank" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 rounded-xl flex items-center gap-3 transition-all border border-slate-700 text-lg font-semibold shadow-xl">
+                    <i class="fab fa-github text-2xl"></i> GitHub Repository
+                </a>
+            </div>
+        </div>
+        <a href="#intro" class="absolute bottom-10 animate-bounce text-slate-500 z-10 hover:text-red-400 transition-colors">
+            <i class="fas fa-chevron-down text-3xl"></i>
+        </a>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-24 space-y-48">
+
+        <!-- 01. Introduction Section -->
+        <section id="intro" class="grid md:grid-cols-5 gap-16 items-center scroll-mt-24 text-left">
+            <div class="md:col-span-3">
+                <h2 class="section-title">프로젝트 개요</h2>
+                <div class="prose prose-lg prose-invert text-slate-300 leading-relaxed mb-10 space-y-4 text-lg">
+                    <p>본 프로젝트는 3D 환경에서 사용자가 느끼는 <strong>시계(FOV)와 정보량의 변화</strong>가 공포감 및 조작 수행도에 미치는 영향을 탐구하기 위해 기획되었습니다.</p>
+                    <p>단순한 게임 제작을 넘어, <strong>1인칭(1PP)과 3인칭(3PP) 시점의 실험 대조</strong>를 통해 유의미한 UX 데이터를 도출하고, 이를 바탕으로 실제 게임의 인터페이스와 난이도를 최적화하는 전 과정을 수행했습니다.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 text-lg">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-red-400"><i class="far fa-calendar-alt"></i></div>
+                        <div>
+                            <span class="text-slate-500 text-sm block font-bold">개발 기간</span>
+                            <span class="font-medium text-slate-200 text-sm">2025.11.21 ~ 12.27</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-red-400"><i class="fas fa-users"></i></div>
+                        <div>
+                            <span class="text-slate-500 text-sm block font-bold">팀 및 역할</span>
+                            <span class="font-medium text-slate-200 text-sm">4명 / 핵심 개발 및 사용성 평가 주도</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 col-span-1 sm:col-span-2">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-blue-400 mt-1"><i class="fas fa-code"></i></div>
+                        <div>
+                            <span class="text-slate-500 text-sm block mb-1 font-bold">기술 스택 및 툴</span>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="tech-badge">C#</span>
+                                <span class="tool-badge">Unity 3D</span>
+                                <span class="tool-badge">Visual Studio 2022</span>
+                                <span class="tool-badge">Figma</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="md:col-span-2 glass-card p-3 shadow-2xl hover-scale">
+                <img src="스크린샷 2025-10-28 183629.jpg" alt="인게임 메인 스크린샷" class="w-full h-auto rounded-xl shadow-lg">
+                <p class="text-center text-slate-500 text-xs mt-4 italic">3인칭 시점 주행 및 UI 인터페이스</p>
+            </div>
+        </section>
+
+        <!-- 02. Research Design -->
+        <section id="research" class="space-y-12 scroll-mt-24 text-left">
+            <h2 class="section-title text-white">연구 설계 및 가설</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-card p-10 border-t-4 border-t-red-500 shadow-xl">
+                    <h3 class="text-2xl font-bold mb-6 text-white text-left"><i class="fas fa-search-plus text-red-500 mr-3"></i>연구 질문 (Research Questions)</h3>
+                    <ul class="space-y-6 text-slate-300">
+                        <li class="flex items-start gap-3 text-left">
+                            <span class="text-red-500 font-bold">RQ1.</span>
+                            <span>시점에 따른 공간 정보 습득 차이가 <strong>과업 수행도</strong>에 미치는 영향은 무엇인가?</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-left">
+                            <span class="text-red-500 font-bold">RQ2.</span>
+                            <span>1인칭의 <strong>자기 존재적 고립감</strong> vs 3인칭의 <strong>관찰적 위협</strong> 중 어떤 심리적 기제가 공포를 극대화하는가?</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-left">
+                            <span class="text-red-500 font-bold">RQ3.</span>
+                            <span>공포 유발 요소가 유발하는 <strong>의도된 불편함</strong>과 <strong>불필요한 피로도</strong> 사이의 임계점은 어디인가?</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-left">
+                            <span class="text-red-500 font-bold">RQ4.</span>
+                            <span>사용자의 <strong>게임 숙련도</strong>에 따라 시점별 공포 체감도와 수행도의 상관관계가 달라지는가?</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="glass-card p-10 border-t-4 border-t-blue-500 shadow-xl text-left">
+                    <h3 class="text-2xl font-bold mb-6 text-white text-left"><i class="fas fa-gamepad text-blue-500 mr-3"></i>실험 자극물 설계</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-blue-500/20 px-3 py-1 rounded text-blue-400 text-sm font-bold">CORE</div>
+                            <p class="text-slate-200">동질성 확보를 위한 시종점 반전 맵</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-4 bg-black/40 rounded-lg">
+                                <span class="text-xs text-slate-500 block mb-2 font-bold uppercase">공포 연출</span>
+                                <p class="text-xs text-slate-300">붉은 점멸, 추격자 접근 연출, 심리적 BGM 및 효과음</p>
+                            </div>
+                            <div class="p-4 bg-black/40 rounded-lg">
+                                <span class="text-xs text-slate-500 block mb-2 font-bold uppercase">장애물</span>
+                                <p class="text-xs text-slate-300">물리적 벽, 충돌 감지 양동이 등 다차원 트랩 배치</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-sm italic">"연구 질문에 답변하기 위해 정교하게 설계된 3D 주행 환경 구축"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03. 핵심 개발 로직 & Implementation -->
+        <section id="logic" class="space-y-12 scroll-mt-24 text-left">
+            <h2 class="section-title text-white">핵심 개발 로직 & Implementation</h2>
+            <p class="text-slate-400 text-lg mb-8">연구 설계에 기반하여, 각 시점별 특징을 극대화하고 공포 기제를 제어하기 위한 핵심 시스템을 구현했습니다.</p>
+            
+            <div class="space-y-16">
+                <!-- 1. Rigidbody 기반 차량 물리 구현 -->
+                <div class="glass-card p-8 hover-scale border-l-4 border-l-blue-500 bg-blue-900/5">
+                    <div class="flex flex-col lg:flex-row gap-10">
+                        <div class="lg:w-1/3">
+                            <h3 class="text-2xl font-bold mb-4 text-blue-400"># Rigidbody 기반 차량 물리</h3>
+                            <p class="text-slate-300 leading-relaxed text-sm mb-6 text-left">
+                                실시간 선형 속도와 각속도 제어를 통해 반응성 높은 주행 시스템을 구축했습니다. 특히 <strong>부드러운 정지 로직</strong>을 통해 연구의 탈출 완료 시점에서의 사용자 경험을 고도화했습니다.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="tech-badge text-xs">Rigidbody Physics</span>
+                                <span class="tech-badge text-xs">Vector3.Lerp</span>
+                            </div>
+                        </div>
+                        <div class="lg:w-2/3">
+                            <div class="code-container">
+                                <div class="code-header">
+                                    <div class="code-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                                    <div class="code-filename">Movement.cs</div>
+                                </div>
+                                <div class="code-snippet">
+<span class="code-comment">// 선형 보간을 활용한 부드러운 감속 및 정지 로직</span>
+<span class="code-keyword">private IEnumerator</span> <span class="code-method">SmoothStopCoroutine</span>() {
+    <span class="code-keyword">while</span> (timer < stopDuration) {
+        timer += Time.deltaTime;
+        <span class="code-keyword">float</span> t = timer / stopDuration;
+        <span class="code-comment">// 선형 속도와 각속도를 점진적으로 0으로 수렴시켜 급정거 방지</span>
+        rb.linearVelocity = Vector3.<span class="code-method">Lerp</span>(initialVelocity, Vector3.zero, t);
+        rb.angularVelocity = Vector3.<span class="code-method">Lerp</span>(initialAngularVelocity, Vector3.zero, t);
+        <span class="code-keyword">yield return null</span>;
+    }
+}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 코루틴 기반 공포 연출 UI -->
+                <div class="glass-card p-8 hover-scale border-l-4 border-l-red-500 bg-red-900/5">
+                    <div class="flex flex-col lg:flex-row gap-10">
+                        <div class="lg:w-1/3">
+                            <h3 class="text-2xl font-bold mb-4 text-red-400"># 비동기 경고 피드백 시스템</h3>
+                            <p class="text-slate-300 leading-relaxed text-sm mb-6 text-left">
+                                추격자와의 거리에 따라 <strong>코루틴(FlashRedScreenLoop)</strong>을 실행하여 공포감을 시각적으로 전이합니다. 비동기 처리를 통해 연출 중에도 주행 조작이 끊기지 않도록 설계했습니다.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="tech-badge text-xs">Coroutine</span>
+                                <span class="tech-badge text-xs">UI Alpha Feedback</span>
+                            </div>
+                        </div>
+                        <div class="lg:w-2/3">
+                            <div class="code-container">
+                                <div class="code-header">
+                                    <div class="code-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                                    <div class="code-filename">Man.cs</div>
+                                </div>
+                                <div class="code-snippet">
+<span class="code-comment">// 추격자 거리에 따른 붉은 화면 점멸 루프 (Warning System)</span>
+<span class="code-keyword">IEnumerator</span> <span class="code-method">FlashRedScreenLoop</span>() {
+    <span class="code-keyword">while</span> (isWarning) {
+        <span class="code-keyword">while</span> (color.a < 0.5f && isWarning) {
+            color.a += Time.deltaTime * 3f;
+            damagePanel.color = color; <span class="code-keyword">yield return null</span>;
+        }
+        <span class="code-keyword">while</span> (color.a > 0f && isWarning) {
+            color.a -= Time.deltaTime * 3f;
+            damagePanel.color = color; <span class="code-keyword">yield return null</span>;
+        }
+    }
+}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Dynamic Camera Director -->
+                <div class="glass-card p-8 hover-scale border-l-4 border-l-emerald-500 bg-emerald-900/5">
+                    <div class="flex flex-col lg:flex-row gap-10">
+                        <div class="lg:w-1/3">
+                            <h3 class="text-2xl font-bold mb-4 text-emerald-400"># 스마트 카메라 트래킹</h3>
+                            <p class="text-slate-300 leading-relaxed text-sm mb-6 text-left">
+                                1PP/3PP 실험 조건에 맞춘 유연한 대응을 위해 SmoothDamp 트래킹 시스템을 구현했습니다. 특히 <strong>충돌 시 카메라 셰이크</strong>를 적용하여 불필요한 피로도 연구 데이터를 수집하는 지표로 활용했습니다.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="tech-badge text-xs">SmoothDamp</span>
+                                <span class="tech-badge text-xs">Random.insideUnitSphere</span>
+                            </div>
+                        </div>
+                        <div class="lg:w-2/3">
+                            <div class="code-container">
+                                <div class="code-header">
+                                    <div class="code-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                                    <div class="code-filename">CameraDirector.cs</div>
+                                </div>
+                                <div class="code-snippet">
+<span class="code-comment">// SmoothDamp 및 랜덤 구체 범위를 활용한 카메라 셰이크</span>
+<span class="code-keyword">void</span> <span class="code-method">LateUpdate</span>() {
+    Vector3 smoothedPos = Vector3.<span class="code-method">SmoothDamp</span>(transform.position, desiredPosition, <span class="code-keyword">ref</span> currentVelocity, smoothTime);
+    <span class="code-keyword">if</span> (shakeDuration > 0) {
+        <span class="code-comment">// 흔들림 지속 시간 동안 위치값에 무작위 오프셋 부여</span>
+        transform.position = smoothedPos + Random.insideUnitSphere * shakeMagnitude;
+        shakeDuration -= Time.deltaTime;
+    }
+}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04. Usability Evaluation -->
+        <section id="evaluation" class="space-y-12 scroll-mt-24 text-left">
+            <h2 class="section-title">사용성 평가 및 데이터 분석</h2>
+            
+            <div class="glass-card p-8 mb-16 overflow-x-auto">
+                <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                    <i class="fas fa-users text-red-400"></i> 참여자 정보 및 실험 설계 (N=8)
+                </h3>
+                <p class="text-slate-300 text-sm mb-6 leading-relaxed">
+                    데이터 편향 방지를 위해 8명을 대상으로 <strong>Counterbalancing(1PP/3PP 선행 순서 교차)</strong> 실험을 진행했습니다. <br>
+                    특히 동일한 맵 환경에서 발생할 수 있는 <strong>학습 효과를 배제</strong>하고자 시작점과 탈출 지점을 반전시키는 <strong>시종점 반전</strong> 방식을 적용하여 조건 간 난이도 형평성을 엄격히 통제했습니다.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>나이/성별</th>
+                            <th>게임 경험</th>
+                            <th>3D 울렁증 여부</th>
+                            <th>공포 장르 선호도</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-300">
+                        <tr class="tr-hover"><td>P1</td><td>25세 / 남</td><td>주 3회 (PC/모바일)</td><td class="text-red-400">있음 (심함)</td><td>즐기지 않음 (개연성 중시)</td></tr>
+                        <tr class="tr-hover"><td>P2</td><td>29세 / 여</td><td>거의 안 함</td><td>없음</td><td>즐기지 않음</td></tr>
+                        <tr class="tr-hover"><td>P3</td><td>31세 / 여</td><td>매일 3시간</td><td>없음</td><td class="text-red-400">매우 싫어함</td></tr>
+                        <tr class="tr-hover"><td>P4</td><td>35세 / 남</td><td>매일 (헤비 유저)</td><td class="text-orange-400">있음 (1인칭 FPS 불가)</td><td>싫어함</td></tr>
+                        <tr class="tr-hover"><td>P5</td><td>22세 / 여</td><td>많이 안 함</td><td>없음</td><td>보통</td></tr>
+                        <tr class="tr-hover"><td>P6</td><td>23세 / 여</td><td>주 4회 (모바일)</td><td class="text-orange-400">있음 (3D 안경 착용 시)</td><td>무서워함</td></tr>
+                        <tr class="tr-hover"><td>P7</td><td>23세 / 여</td><td>자주 함 (모바일)</td><td>없음</td><td>즐기지 않음</td></tr>
+                        <tr class="tr-hover"><td>P8</td><td>22세 / 여</td><td>자주 함 (PC 3D)</td><td>없음</td><td>좋아하지 않음</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="glass-card p-8">
+                    <h4 class="text-lg font-bold text-white mb-6 text-left">플레이 목표에 따른 시점 선택 (N=8)</h4>
+                    <div style="height: 300px;">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-6 leading-relaxed">
+                        * <strong>성능(속도):</strong> 8명 전원이 3인칭 선택. 정보량 지각 우위가 명확함.<br>
+                        * <strong>공포(재미):</strong> 6명이 1인칭 선택. 고립감과 갑작스러운 상황에 대한 압박감이 높음.
+                    </p>
+                </div>
+                <div class="glass-card p-8">
+                    <h4 class="text-lg font-bold text-white mb-6 text-left">시점별 부정적 UX 보고 빈도</h4>
+                    <div style="height: 300px;">
+                        <canvas id="negativeUxChart"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-6 leading-relaxed">
+                        1인칭에서 멀미와 정보 결핍 호소가 높게 나타났으나, 3인칭에서는 추격자가 뒤따라오는 모습을 직접 관찰하는 것에 대한 스트레스가 보고됨.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mt-12">
+                <div class="glass-card p-8 hover-scale">
+                    <h4 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                        <i class="fas fa-chart-line text-red-400"></i> 수행도 및 숙련도 인사이트 (RQ1, RQ4)
+                    </h4>
+                    <div class="space-y-6 text-left text-sm">
+                        <div class="highlight-box">
+                            <p class="font-bold text-red-400 mb-2">3인칭의 압도적 우위와 1인칭의 결핍</p>
+                            <p class="text-slate-400 leading-relaxed">3인칭은 넓은 FOV를 통한 거리감 파악이 용이하여 오류율이 낮은 반면, 1인칭은 차량 프레임에 의한 시야 차단이 수행력을 저해함.</p>
+                        </div>
+                        <div class="highlight-box">
+                            <p class="font-bold text-blue-400 mb-2">숙련도에 따른 상관관계</p>
+                            <p class="text-slate-400 leading-relaxed">라이트 유저(P2, P5, P6)는 1인칭 정보 제한에 패닉을 느끼나, 헤비 유저(P4)는 시스템 이해도가 높아 시점별 공포 편차가 적음.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 hover-scale">
+                    <h4 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                        <i class="fas fa-brain text-purple-400"></i> 심리 기제 및 연출 분석 (RQ2, RQ3)
+                    </h4>
+                    <div class="space-y-6 text-left text-sm">
+                        <div class="highlight-box">
+                            <p class="font-bold text-purple-400 mb-2">불확실성(1PP) vs 가시적 추격(3PP)</p>
+                            <p class="text-slate-400 leading-relaxed">1인칭은 예측 불가한 점프 스케어가 압박감의 핵심. 3인칭은 추격자가 다가오는 모습을 봐야만 하는 관찰자적 위협이 주요 스트레스 요인임.</p>
+                        </div>
+                        <div class="highlight-box">
+                            <p class="font-bold text-orange-400 mb-2">공포와 기능적 방해의 경계</p>
+                            <p class="text-slate-400 leading-relaxed">붉은 점멸 연출을 다수가 운전 방해 요소로 인식. 과업 결합 시 과도한 시각 차단은 공포보다 짜증을 유발함.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05. 최종 UX 설계 전략 -->
+        <section id="strategy" class="space-y-12 scroll-mt-24 text-left">
+            <h2 class="section-title text-white text-left">연구 기반 최종 UX 설계 전략</h2>
+            <p class="text-slate-400 text-lg mb-4 text-left">"운전(과업)과 공포(감정)의 결합에서 오는 피로도를 최소화하는 시점 운용 전략"</p>
+            
+            <div class="strategy-grid text-left">
+                <!-- 전략 1 -->
+                <div class="strategy-card">
+                    <div class="strategy-number">01</div>
+                    <div class="strategy-badge">Viewpoint Management</div>
+                    <div class="strategy-icon"><i class="fas fa-brain"></i></div>
+                    <h4 class="strategy-title">인지 부하 기반의 시점 교차 운용</h4>
+                    <ul class="strategy-list">
+                        <li>
+                            <strong>성능 지향 구간 (Driving Focus)</strong>
+                            8/8 전원이 3인칭을 선택한 결과에 근거, 정밀 주행 구간에서는 3인칭 혹은 A필러 투명화가 적용된 1인칭을 제공하여 정보 결핍 스트레스를 방지함.
+                        </li>
+                        <li>
+                            <strong>감정 지향 구간 (Horror Focus)</strong>
+                            1인칭의 자기 존재적 고립감을 활용하기 위해, 분위기 전달이 중요한 이벤트 구간에서 의도적으로 시야를 차폐하여 예기 불안을 극대화함.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 전략 2 -->
+                <div class="strategy-card">
+                    <div class="strategy-number">02</div>
+                    <div class="strategy-badge">Visual Optimization</div>
+                    <div class="strategy-icon"><i class="fas fa-eye-slash"></i></div>
+                    <h4 class="strategy-title">시각 간섭의 기능적 재정의</h4>
+                    <ul class="strategy-list">
+                        <li>
+                            <strong>비네팅(Vignette) 연출 도입</strong>
+                            다수가 기능적 방해로 꼽은 전체 점멸 대신, 중앙 주행 시야를 보존하는 테두리 강조 방식을 채택하여 공포감과 수행력의 감각적 절충안을 제시함.
+                        </li>
+                        <li>
+                            <strong>고정 참조점(Anchor) 확보</strong>
+                            1인칭 카메라 셰이크 시 대시보드 등 고정된 객체의 가시성을 유지하여 시각적 안정감을 부여하고 심각한 멀미 이탈 요인을 저감함.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 전략 3 -->
+                <div class="strategy-card">
+                    <div class="strategy-number">03</div>
+                    <div class="strategy-badge">Difficulty Balance</div>
+                    <div class="strategy-icon"><i class="fas fa-balance-scale"></i></div>
+                    <h4 class="strategy-title">시점별 비대칭 난이도 밸런싱</h4>
+                    <ul class="strategy-list">
+                        <li>
+                            <strong>시점 기반 보정 계수 적용</strong>
+                            정보 습득 한계가 뚜렷한 1인칭 플레이 시 장애물 밀도를 하향 조정하고, 반대로 시야가 넓은 3인칭은 갈림길과 가시적 장애물을 강화하여 체감 밸런스를 평준화함.
+                        </li>
+                        <li>
+                            <strong>숙련도별 단계적 노출</strong>
+                            비숙련자의 패닉 방지를 위해 초반부는 3인칭으로 정보량을 제공하고, 점진적으로 1인칭의 고립된 환경으로 유도하는 단계적 시점 변화 전략을 수립함.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 전략 4 -->
+                <div class="strategy-card">
+                    <div class="strategy-number">04</div>
+                    <div class="strategy-badge">Emotional Trigger</div>
+                    <div class="strategy-icon"><i class="fas fa-ghost"></i></div>
+                    <h4 class="strategy-title">상황 중심의 공포 기제 활용</h4>
+                    <ul class="strategy-list">
+                        <li>
+                            <strong>불확실성의 공포 (1PP)</strong>
+                            예측 불가능한 궤적에서 발생하는 점프 스케어와 고도화된 음향 효과를 결합하여 보이지 않는 위협에 대한 심리적 압박을 강화함.
+                        </li>
+                        <li>
+                            <strong>가시적 추격의 공포 (3PP)</strong>
+                            추격자가 플레이어를 뒤쫓는 궤적을 직접 노출하여 관찰자적 위기감을 유도하고, 이를 통해 긴박한 탈출 욕구와 심박수 변화를 이끌어냄.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        <!-- 06. Video Demonstration -->
+        <section id="video" class="space-y-12 scroll-mt-24 text-left">
+            <h2 class="section-title text-white">시연 영상</h2>
+            <div class="glass-card p-10 bg-slate-950/50 shadow-[0_0_50px_rgba(248,113,113,0.15)] border border-red-500/10">
+                <div class="aspect-video w-full max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.6)] bg-black border border-white/5">
+                    <video class="w-full h-full object-cover" controls>
+                        <source src="./video/demo_video.mp4" type="video/mp4">
+                        브라우저가 비디오 태그를 지원하지 않습니다.
+                    </video>
+                </div>
+                <div class="mt-8 text-left space-y-2">
+                    <p class="text-slate-200 font-semibold text-lg text-left">시점별 공포 주행 프로세스 시연"</p>
+                    <p class="text-slate-500 text-sm font-light text-left">1인칭과 3인칭의 조작성 차이 및 공포 연출 요소 확인</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 07. 프로젝트 도전과 극복 (NEW) -->
+        <section id="challenges" class="space-y-12 scroll-mt-24 text-left text-left text-left">
+            <h2 class="section-title text-white text-left">프로젝트 도전과 극복</h2>
+            <div class="grid md:grid-cols-2 gap-12 text-left text-left">
+                <!-- 주제 선정의 고민 -->
+                <div class="glass-card p-10 border-t-4 border-t-orange-500 shadow-xl text-left">
+                    <div class="flex items-center gap-5 mb-8 text-left text-left">
+                        <div class="w-16 h-16 bg-orange-950 rounded-2xl flex items-center justify-center text-orange-400 border border-orange-900 text-left">
+                            <i class="fas fa-lightbulb text-3xl text-left"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold tracking-tight text-white text-left">주제 선정: 당연함 너머의 가치 찾기</h3>
+                    </div>
+                    <div class="space-y-6 text-slate-300 text-left">
+                        <p class="text-lg text-left leading-relaxed text-left">
+                            "1인칭은 몰입감, 3인칭은 성능 우위"라는 대전제가 있었기에 처음에는 <strong>'이 연구가 정말 의미가 있을까?'</strong>라는 근본적인 주제 선정의 어려움이 있었습니다.
+                        </p>
+                        <p class="text-slate-400 text-sm text-left leading-relaxed text-left">
+                            하지만 저희 팀은 <strong>탈출과 공포가 동시에 요구되는 하이브리드 환경</strong>에서 시점별 최적의 UX 요소가 무엇인지 구체화하고 싶었습니다. 단순한 가정을 넘어 어떤 요소를 배제하고 강조해야 사용자 즐거움을 극대화할 수 있는지 데이터로 증명하고자 팀원들과 지속적인 회의와 교수님 피드백을 거쳐 차별화된 연구 목표를 확립했습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 실험 설계의 정교함 -->
+                <div class="glass-card p-10 border-t-4 border-t-blue-500 shadow-xl text-left text-left text-left">
+                    <div class="flex items-center gap-5 mb-8 text-left text-left text-left">
+                        <div class="w-16 h-16 bg-blue-950 rounded-2xl flex items-center justify-center text-blue-400 border border-blue-900 text-left text-left">
+                            <i class="fas fa-flask text-3xl text-left text-left"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold tracking-tight text-white text-left">실험 설계: 변수 통제와 난이도 조절</h3>
+                    </div>
+                    <div class="space-y-6 text-slate-300 text-left text-left">
+                        <p class="text-lg text-left leading-relaxed text-left text-left">
+                            발표 현장에서 <strong>"1인칭은 몰입감, 3인칭은 성능 우위하다는 대전제가 있는데 이를 극복하고 시점 차이를 정확히 판단하기 위해 어떤 설계를 했느냐"</strong>는 핵심적인 질문을 받았습니다.
+                        </p>
+                        <p class="text-slate-400 text-sm text-left leading-relaxed text-left text-left text-left">
+                            저희는 결과를 미리 정해놓은 평가가 되지 않도록 맵 구조를 아예 다르게 만드는 대신, <strong>장애물의 개수와 맵의 기본 구조를 동일하게 통일</strong>시켰습니다. 대신 <strong>맵을 좌우 반전</strong>시켜 사용자가 두 번째 플레이 시 맵을 외워서 플레이하는 <strong>학습 효과</strong>를 완벽히 차단했습니다. 이를 통해 시점이라는 단일 변수가 사용자 경험에 미치는 영향을 가장 객관적으로 추출해낼 수 있었습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="glass-card p-16 text-center bg-gradient-to-b from-slate-800/40 to-red-950/10 border border-slate-800 shadow-2xl">
+            <i class="fas fa-rocket text-6xl text-red-500 mb-10 block mx-auto"></i>
+            <h2 class="text-4xl font-bold mb-10 text-white tracking-tighter text-center">마무리하며</h2>
+            <div class="max-w-4xl mx-auto space-y-10 text-slate-300 text-lg leading-relaxed text-center">
+                <p class="text-center">
+                    이번 팀 프로젝트는 <strong>사용자의 본능과 조작 사이의 갈등</strong>을 데이터로 풀어낸 값진 경험이었습니다. 단순히 "무섭게 만들자"는 직관에서 벗어나, 사용자가 공포를 느끼면서도 조작에서 오는 좌절을 최소화할 수 있는 균형점을 찾는 과정이 핵심이었습니다.
+                </p>
+                <p class="text-center">
+                    HCI적 관점에서 시점이 사용자 경험에 미치는 영향력을 연구하려 하였으며, 앞으로도 <br><strong>기술적 구현 능력과 사용자 경험 분석력의 균형<strong>을 맞추어 가장 효율적인 인터랙션을 구현하는 개발자로 성장하겠습니다.
+                </p>
+                <p class="text-2xl font-bold text-red-500 mt-12 leading-snug text-center">
+                    "HCI 관점에서 UXUI를 고려할 수 있는 개발자가 되겠습니다"
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-20 border-t border-white/5 text-center text-slate-500 text-sm bg-[#0d1117]">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <p class="font-semibold text-slate-400 mb-4 text-base text-center">차량 주행 미로 탈출 공포 게임 프로젝트</p>
+            <p class="text-center text-sm mb-8">Designed & Developed by Jang Go-eun</p>
+            <div class="flex justify-center gap-10">
+                <a href="https://github.com/VR-AR2-TEAM-PROJECT/project" class="hover:text-red-400 transition-colors flex items-center gap-2 text-base">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx1 = document.getElementById('performanceChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['가장 빠른 탈출(성능)', '가장 무섭게 즐기기(공포)'],
+                    datasets: [
+                        { label: '1인칭(1PP)', data: [0, 6], backgroundColor: 'rgba(248, 113, 113, 0.6)', borderColor: '#f87171', borderWidth: 1 },
+                        { label: '3인칭(3PP)', data: [8, 2], backgroundColor: 'rgba(59, 130, 246, 0.6)', borderColor: '#3b82f6', borderWidth: 1 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 8, ticks: { stepSize: 1, color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        x: { ticks: { color: '#94a3b8' }, grid: { display: false } }
+                    },
+                    plugins: { legend: { labels: { color: '#e2e8f0' } } }
+                }
+            });
+
+            const ctx2 = document.getElementById('negativeUxChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'radar',
+                data: {
+                    labels: ['심한 멀미', '정보 부족', '조작 답답함', '관찰적 스트레스', '시각적 간섭'],
+                    datasets: [
+                        { label: '1인칭(1PP)', data: [6, 7, 7, 1, 6], backgroundColor: 'rgba(248, 113, 113, 0.2)', borderColor: '#f87171', pointBackgroundColor: '#f87171' },
+                        { label: '3인칭(3PP)', data: [1, 1, 1, 4, 2], backgroundColor: 'rgba(59, 130, 246, 0.2)', borderColor: '#3b82f6', pointBackgroundColor: '#3b82f6' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255,255,255,0.1)' },
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            pointLabels: { color: '#94a3b8', font: { size: 11 } },
+                            ticks: { display: false },
+                            min: 0, max: 8
+                        }
+                    },
+                    plugins: { legend: { position: 'bottom', labels: { color: '#e2e8f0' } } }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
